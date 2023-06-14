@@ -12,6 +12,8 @@
     <modules>
         <module>shop-product-api</module>
         <module>shop-product-server</module>
+        <module>shop-order-api</module>
+        <module>shop-order-server</module>
     </modules>
     <!--⽗⼯程-->
     <parent>
