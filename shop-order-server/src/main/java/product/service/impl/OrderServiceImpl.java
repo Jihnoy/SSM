@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import product.Product;
 import product.dao.OrderDao;
 import product.domain.Order;
+import product.feign.ProductFeignApi;
 import product.service.OrderService;
 
 
@@ -21,13 +22,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private DiscoveryClient discoveryClient;
     @Autowired
-    private RestTemplate restTemplate;
+    private ProductFeignApi productFeignApi;
     @Override
     public Order createOrder(Long productId, Long userId){
-        log.info("接收到{}号商品的下单请求,接下来调⽤商品微服务查询此商品信息", productId);
-        ServiceInstance instance = discoveryClient.getInstances("product-service").get(0);
-        String url = instance.getHost()+":"+instance.getPort();
-        Product product = restTemplate.getForObject("http://"+url+"/product/"+productId, Product.class);
+        Product product = productFeignApi.findByPid(productId);
         log.info("查询到{}号商品的信息,内容是:{}", productId,
                 JSON.toJSONString(product));
         Order order = new Order();
