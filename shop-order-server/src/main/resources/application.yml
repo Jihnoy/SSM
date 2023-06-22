@@ -1,7 +1,15 @@
 server:
   port: 8091
+  tomcat:
+    threads:
+      max: 10
 spring:
   cloud:
+    sentinel:
+      transport:
+        port: 9999
+        dashboard: localhost:8080
+      web-context-unify: false
     nacos:
       discovery:
         server-addr: localhost:8848
